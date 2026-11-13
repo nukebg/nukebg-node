@@ -1,7 +1,7 @@
 name: Publish to npm
-# Runs when a GitHub release is published. Uses npm trusted publishing (OIDC, no stored token) with
-# provenance. For the very first release, before trusted publishing is set up on npmjs.com, add a
-# short-lived granular token as the NPM_TOKEN secret; delete it once trusted publishing is configured.
+# Runs when a GitHub release is published. Authenticates with npm trusted publishing (OIDC: no stored
+# token) and publishes with provenance. Configured on npmjs.com for nukebg/nukebg-node, publish.yml,
+# environment "npm".
 on:
   release:
     types: [published]
@@ -21,6 +21,6 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: npm ci
       - run: npm run build
+      # Trusted publishing needs npm 11.5.1 or later.
+      - run: npm install -g npm@^11.5.1
       - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

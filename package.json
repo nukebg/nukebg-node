@@ -1,6 +1,6 @@
 {
   "name": "nukebg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Official Node.js client for the NukeBG background removal API, with a drop-in replacement for the remove.bg package.",
   "keywords": [
     "background-removal",

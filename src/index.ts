@@ -6,7 +6,7 @@ import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
 import { readFile } from "node:fs/promises";
 
 export const DEFAULT_BASE_URL = "https://api.nukebg.com";
-export const VERSION = "1.0.0";
+export const VERSION = "1.0.1";
 
 /** A file path, an http(s) URL, raw bytes or a Blob. */
 export type ImageInput = string | Uint8Array | ArrayBuffer | Blob;
