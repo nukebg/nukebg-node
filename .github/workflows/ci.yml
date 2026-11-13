@@ -1,0 +1,25 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      # Both module systems load and expose the client.
+      - run: node --input-type=module -e "import { NukeBG } from './dist/esm/index.js'; import * as rb from './dist/esm/removebg.js'; if (typeof NukeBG !== 'function' || typeof rb.removeBackgroundFromImageFile !== 'function') process.exit(1)"
+      - run: node -e "const { NukeBG } = require('./dist/cjs/index.js'); const rb = require('./dist/cjs/removebg.js'); if (typeof NukeBG !== 'function' || typeof rb.removeBackgroundFromImageUrl !== 'function') process.exit(1)"
+      - run: npm pack --dry-run

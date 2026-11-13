@@ -1,0 +1,83 @@
+{
+  "name": "nukebg",
+  "version": "1.0.0",
+  "description": "Official Node.js client for the NukeBG background removal API, with a drop-in replacement for the remove.bg package.",
+  "keywords": [
+    "background-removal",
+    "remove-background",
+    "remove.bg",
+    "removebg",
+    "transparent-png",
+    "image-api",
+    "nukebg",
+    "cutout",
+    "upscale"
+  ],
+  "homepage": "https://nukebg.com/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nukebg/nukebg-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nukebg/nukebg-node/issues",
+    "email": "nukebg@volods.com"
+  },
+  "license": "MIT",
+  "author": "VOLODS LTD <nukebg@volods.com>",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./removebg": {
+      "import": {
+        "types": "./dist/esm/removebg.d.ts",
+        "default": "./dist/esm/removebg.js"
+      },
+      "require": {
+        "types": "./dist/cjs/removebg.d.ts",
+        "default": "./dist/cjs/removebg.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({ type: 'commonjs' }))\"",
+    "test": "node test/smoke.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.6.0"
+  },
+  "module": "./dist/esm/index.js",
+  "typesVersions": {
+    "*": {
+      "removebg": [
+        "./dist/cjs/removebg.d.ts"
+      ]
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
